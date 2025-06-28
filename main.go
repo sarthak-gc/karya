@@ -36,12 +36,9 @@ func addTodo(task string, note string) error {
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
 	newData := []string{strconv.Itoa(rand.Intn(90000) + 10000), task, note, string(PENDING)}
-	fmt.Println(newData)
 	if err := writer.Write(newData); err != nil {
-		fmt.Println("Error writing record:", err)
 		return err
 	}
-	fmt.Println(task, note)
 	return nil
 }
 
@@ -54,7 +51,6 @@ func listTodos() ([]Todo, error) {
 	defer file.Close()
 	reader := csv.NewReader(file)
 	records, err := reader.ReadAll()
-	fmt.Println(records)
 	if err != nil {
 		return nil, err
 	}
@@ -210,20 +206,6 @@ func main() {
 		}
 		if len(args) <= 2 {
 			log.Fatal("No arguments")
-			return
-		}
-		toActOn, err := strconv.ParseInt(args[2], 0, 0)
-		if err == nil {
-			for index, todo := range todos {
-				if todo.Id == int(toActOn) {
-					fmt.Println(todo)
-					return
-				}
-				if index == len(todos)+1 {
-					log.Fatal("Invalid id")
-					return
-				}
-			}
 			return
 		}
 
